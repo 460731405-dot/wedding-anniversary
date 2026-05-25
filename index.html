@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>结婚周年报告 · 我们的故事</title>
+<link rel="preload" as="image" href="cover-dogs.png" fetchpriority="high">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -260,7 +261,8 @@ body {
 <body>
 
 <!-- music button -->
-<button class="music-btn" id="musicBtn" onclick="toggleMusic()" title="播放音乐">🎵</button>
+<button class="music-btn paused" id="musicBtn" onclick="toggleMusic()" title="点击播放音乐">🎵</button>
+<span id="musicHint" style="position:fixed;top:60px;right:16px;z-index:200;font-size:10px;color:rgba(140,90,110,.6);pointer-events:none;">点我放歌 ♪</span>
 <!-- audio -->
 <audio id="bgMusic" src="music.mp3" preload="none" loop></audio>
 
@@ -307,7 +309,7 @@ body {
 
     <!-- dogs image with 周年报告 overlaid on bottom -->
     <div style="position:relative;display:inline-block;line-height:0;margin-top:-100px;">
-      <img src="cover-dogs.png" alt="LOVE YOU" style="width:300px;height:auto;display:block;filter:drop-shadow(0 4px 12px rgba(0,0,0,.08));">
+      <img src="cover-dogs.png" alt="LOVE YOU" fetchpriority="high" style="width:300px;height:auto;display:block;filter:drop-shadow(0 4px 12px rgba(0,0,0,.08));">
       <div style="position:absolute;bottom:6px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:28px;font-weight:700;color:#7a5a6a;letter-spacing:8px;padding:16px 18px 6px;background:linear-gradient(to bottom,transparent 0%,rgba(255,255,255,.35) 20%,rgba(255,255,255,.7) 50%,rgba(255,255,255,.85) 100%);border-radius:4px;line-height:1.2;">
         周年报告
       </div>
@@ -330,8 +332,8 @@ body {
   <div class="sec-s anim a1">Chapter 1 · 相 识</div>
 
   <div class="photo-row anim a2">
-    <div class="photo-pola" style="rotate:-3deg;"><div class="p-img"><img loading="lazy" src="photo/1.jpg" alt=""></div><div class="p-label">第一次约会</div></div>
-    <div class="photo-pola" style="rotate:2deg;"><div class="p-img"><img loading="lazy" src="photo/2.jpg" alt=""></div><div class="p-label">初印象：这人还行</div></div>
+    <div class="photo-pola" style="rotate:-3deg;"><div class="p-img"><img loading="lazy" decoding="async" src="photo/1.jpg" alt=""></div><div class="p-label">第一次约会</div></div>
+    <div class="photo-pola" style="rotate:2deg;"><div class="p-img"><img loading="lazy" decoding="async" src="photo/2.jpg" alt=""></div><div class="p-label">初印象：这人还行</div></div>
   </div>
 
   <div class="card anim a3">
@@ -365,10 +367,10 @@ body {
   <div class="sec-s anim a1">Chapter 2 · 相 知</div>
 
   <div class="photo-grid anim a2">
-    <div class="photo-pola" style="rotate:-3deg;"><div class="p-img"><img loading="lazy" src="photo/3.jpg" alt=""></div><div class="p-label">第一次在麓湖公园</div></div>
-    <div class="photo-pola" style="rotate:2deg;"><div class="p-img"><img loading="lazy" src="photo/4.jpg" alt=""></div><div class="p-label">第一次去顺德</div></div>
-    <div class="photo-pola" style="rotate:1deg;"><div class="p-img"><img loading="lazy" src="photo/5.jpg" alt=""></div><div class="p-label">第一次看音乐节</div></div>
-    <div class="photo-pola" style="rotate:-2deg;"><div class="p-img"><img loading="lazy" src="photo/6.jpg" alt=""></div><div class="p-label">第一次出门</div></div>
+    <div class="photo-pola" style="rotate:-3deg;"><div class="p-img"><img loading="lazy" decoding="async" src="photo/3.jpg" alt=""></div><div class="p-label">第一次在麓湖公园</div></div>
+    <div class="photo-pola" style="rotate:2deg;"><div class="p-img"><img loading="lazy" decoding="async" src="photo/4.jpg" alt=""></div><div class="p-label">第一次去顺德</div></div>
+    <div class="photo-pola" style="rotate:1deg;"><div class="p-img"><img loading="lazy" decoding="async" src="photo/5.jpg" alt=""></div><div class="p-label">第一次看音乐节</div></div>
+    <div class="photo-pola" style="rotate:-2deg;"><div class="p-img"><img loading="lazy" decoding="async" src="photo/6.jpg" alt=""></div><div class="p-label">第一次出门</div></div>
   </div>
 
   <div class="card anim a3">
@@ -392,7 +394,7 @@ body {
   <div class="sec-t anim">❤️ 第三章</div>
   <div class="sec-s anim a1">Chapter 3 · 相 恋</div>
 
-  <div class="photo-big anim a2"><img loading="lazy" src="photo/7.jpg" alt=""></div>
+  <div class="photo-big anim a2"><img loading="lazy" decoding="async" src="photo/7.jpg" alt=""></div>
 
   <div class="card anim a3">
     <div class="card-emoji">💘</div>
@@ -404,8 +406,8 @@ body {
   </div>
 
   <div class="photo-row anim a4">
-    <div class="photo-pola" style="rotate:-4deg;"><div class="p-img"><img loading="lazy" src="photo/8.jpg" alt=""></div><div class="p-label">香港摩天轮合影</div></div>
-    <div class="photo-pola" style="rotate:3deg;"><div class="p-img"><img loading="lazy" src="photo/9.jpg" alt=""></div><div class="p-label">香港之行的日落</div></div>
+    <div class="photo-pola" style="rotate:-4deg;"><div class="p-img"><img loading="lazy" decoding="async" src="photo/8.jpg" alt=""></div><div class="p-label">香港摩天轮合影</div></div>
+    <div class="photo-pola" style="rotate:3deg;"><div class="p-img"><img loading="lazy" decoding="async" src="photo/9.jpg" alt=""></div><div class="p-label">香港之行的日落</div></div>
   </div>
 
   <div class="sticker anim a5">
@@ -426,8 +428,8 @@ body {
   <div class="sec-s anim a1">Chapter 4 · 领 证</div>
 
   <div class="photo-row anim a2">
-    <div class="photo-pola" style="rotate:-3deg;"><div class="p-img"><img loading="lazy" src="photo/10.jpg" alt=""></div><div class="p-label">红本本</div></div>
-    <div class="photo-pola" style="rotate:2deg;"><div class="p-img"><img loading="lazy" src="photo/11.jpg" alt=""></div><div class="p-label">领证当天</div></div>
+    <div class="photo-pola" style="rotate:-3deg;"><div class="p-img"><img loading="lazy" decoding="async" src="photo/10.jpg" alt=""></div><div class="p-label">红本本</div></div>
+    <div class="photo-pola" style="rotate:2deg;"><div class="p-img"><img loading="lazy" decoding="async" src="photo/11.jpg" alt=""></div><div class="p-label">领证当天</div></div>
   </div>
 
   <div style="display:flex;gap:10px;font-size:34px;z-index:1;margin:6px 0;align-items:center;" class="anim a3">
@@ -442,7 +444,7 @@ body {
     </div>
   </div>
 
-  <div class="photo-big anim a5" style="width:150px;height:150px;"><img loading="lazy" src="photo/12.jpg" alt=""></div>
+  <div class="photo-big anim a5" style="width:150px;height:150px;"><img loading="lazy" decoding="async" src="photo/12.jpg" alt=""></div>
 
   <div class="stat-row anim a6">
     <div class="stat-item"><div class="sn">✅</div><div class="sl">领证成功</div></div>
@@ -458,10 +460,10 @@ body {
   <div class="sec-s anim a1">Chapter 5 · 孕 期</div>
 
   <div class="photo-grid anim a2">
-    <div class="photo-pola" style="rotate:-2deg;"><div class="p-img"><img loading="lazy" src="photo/13.jpg" alt=""></div><div class="p-label">肚子渐渐大啦</div></div>
-    <div class="photo-pola" style="rotate:3deg;"><div class="p-img"><img loading="lazy" src="photo/14.jpg" alt=""></div><div class="p-label">美美哒孕妇照</div></div>
-    <div class="photo-pola" style="rotate:-1deg;"><div class="p-img"><img loading="lazy" src="photo/15.jpg" alt=""></div><div class="p-label">B超照片</div></div>
-    <div class="photo-pola" style="rotate:2deg;"><div class="p-img"><img loading="lazy" src="photo/16.jpg" alt=""></div><div class="p-label">生产前合影</div></div>
+    <div class="photo-pola" style="rotate:-2deg;"><div class="p-img"><img loading="lazy" decoding="async" src="photo/13.jpg" alt=""></div><div class="p-label">肚子渐渐大啦</div></div>
+    <div class="photo-pola" style="rotate:3deg;"><div class="p-img"><img loading="lazy" decoding="async" src="photo/14.jpg" alt=""></div><div class="p-label">美美哒孕妇照</div></div>
+    <div class="photo-pola" style="rotate:-1deg;"><div class="p-img"><img loading="lazy" decoding="async" src="photo/15.jpg" alt=""></div><div class="p-label">B超照片</div></div>
+    <div class="photo-pola" style="rotate:2deg;"><div class="p-img"><img loading="lazy" decoding="async" src="photo/16.jpg" alt=""></div><div class="p-label">生产前合影</div></div>
   </div>
 
   <div class="card anim a3">
@@ -487,10 +489,10 @@ body {
   <div class="sec-s anim a1">Chapter 6 · 迎 新</div>
 
   <div class="photo-grid anim a2">
-    <div class="photo-pola" style="rotate:-3deg;"><div class="p-img"><img loading="lazy" src="photo/17.jpg" alt=""></div><div class="p-label">第一天</div></div>
-    <div class="photo-pola" style="rotate:2deg;"><div class="p-img"><img loading="lazy" src="photo/18.jpg" alt=""></div><div class="p-label">小脚丫</div></div>
-    <div class="photo-pola" style="rotate:1deg;"><div class="p-img"><img loading="lazy" src="photo/19.jpg" alt=""></div><div class="p-label">100天啦</div></div>
-    <div class="photo-pola" style="rotate:-2deg;"><div class="p-img"><img loading="lazy" src="photo/20.jpg" alt=""></div><div class="p-label">上周的笑容</div></div>
+    <div class="photo-pola" style="rotate:-3deg;"><div class="p-img"><img loading="lazy" decoding="async" src="photo/17.jpg" alt=""></div><div class="p-label">第一天</div></div>
+    <div class="photo-pola" style="rotate:2deg;"><div class="p-img"><img loading="lazy" decoding="async" src="photo/18.jpg" alt=""></div><div class="p-label">小脚丫</div></div>
+    <div class="photo-pola" style="rotate:1deg;"><div class="p-img"><img loading="lazy" decoding="async" src="photo/19.jpg" alt=""></div><div class="p-label">100天啦</div></div>
+    <div class="photo-pola" style="rotate:-2deg;"><div class="p-img"><img loading="lazy" decoding="async" src="photo/20.jpg" alt=""></div><div class="p-label">上周的笑容</div></div>
   </div>
 
   <div class="card anim a3">
@@ -502,7 +504,7 @@ body {
     </div>
   </div>
 
-  <div class="photo-big anim a4" style="width:150px;height:150px;"><img loading="lazy" src="photo/21.jpg" alt=""></div>
+  <div class="photo-big anim a4" style="width:150px;height:150px;"><img loading="lazy" decoding="async" src="photo/21.jpg" alt=""></div>
 
   <div class="stat-row anim a5">
     <div class="stat-item"><div class="sn">👨‍👩‍👧</div><div class="sl">从2到3</div></div>
@@ -533,8 +535,8 @@ body {
 
   <!-- two family photos -->
   <div class="photo-row anim a4">
-    <div class="photo-pola" style="rotate:-3deg;"><div class="p-img"><img loading="lazy" src="photo/22.jpg" alt=""></div><div class="p-label">春节合影</div></div>
-    <div class="photo-pola" style="rotate:2deg;"><div class="p-img"><img loading="lazy" src="photo/23.jpg" alt=""></div><div class="p-label">婚宴合影</div></div>
+    <div class="photo-pola" style="rotate:-3deg;"><div class="p-img"><img loading="lazy" decoding="async" src="photo/22.jpg" alt=""></div><div class="p-label">春节合影</div></div>
+    <div class="photo-pola" style="rotate:2deg;"><div class="p-img"><img loading="lazy" decoding="async" src="photo/23.jpg" alt=""></div><div class="p-label">婚宴合影</div></div>
   </div>
 
   <div style="font-size:18px;font-weight:700;color:#6a3a5a;margin-top:8px;z-index:1;letter-spacing:1px;text-align:center;" class="anim a5">
@@ -555,23 +557,9 @@ body {
 </div>
 
 <script>
-// ===== MUSIC (robust mobile autoplay) =====
+// ===== MUSIC (manual click-to-play only, no auto-download) =====
 var bgMusic = document.getElementById('bgMusic');
 var musicBtn = document.getElementById('musicBtn');
-var musicStarted = false;
-
-function startMusic() {
-  if (!musicStarted && bgMusic.paused) {
-    musicStarted = true;
-    bgMusic.play().then(function() {
-      musicBtn.classList.add('playing');
-      musicBtn.classList.remove('paused');
-      musicBtn.textContent = '🎶';
-    }).catch(function() {
-      musicStarted = false;
-    });
-  }
-}
 
 window.toggleMusic = function() {
   if (bgMusic.paused) {
@@ -579,6 +567,8 @@ window.toggleMusic = function() {
       musicBtn.classList.add('playing');
       musicBtn.classList.remove('paused');
       musicBtn.textContent = '🎶';
+      var hint = document.getElementById('musicHint');
+      if (hint) hint.style.display = 'none';
     }).catch(function() {});
   } else {
     bgMusic.pause();
@@ -588,48 +578,8 @@ window.toggleMusic = function() {
   }
 };
 
-// Mark as paused initially (triggers pulse animation)
+// Show paused state (pulse animation to draw attention)
 musicBtn.classList.add('paused');
-
-// Strategy 1: WeChat built-in browser autoplay
-if (typeof WeixinJSBridge !== 'undefined') {
-  WeixinJSBridge.invoke('getNetworkType', {}, function() {
-    startMusic();
-  });
-}
-document.addEventListener('WeixinJSBridgeReady', function() {
-  startMusic();
-}, false);
-
-// Strategy 2: Try autoplay on load (works on desktop, may fail on mobile)
-bgMusic.play().then(function() {
-  musicStarted = true;
-  musicBtn.classList.add('playing');
-  musicBtn.classList.remove('paused');
-  musicBtn.textContent = '🎶';
-}).catch(function() {
-  // Mobile blocked autoplay — wait for user gesture
-});
-
-// Strategy 3: Catch ANY user interaction to fire playback
-var interactionEvents = ['click', 'touchstart', 'touchend', 'scroll'];
-function playOnInteraction() {
-  if (!musicStarted) startMusic();
-}
-interactionEvents.forEach(function(evt) {
-  document.addEventListener(evt, playOnInteraction, { once: false, passive: true });
-});
-// After music starts, remove all listeners
-var checkInterval = setInterval(function() {
-  if (musicStarted) {
-    interactionEvents.forEach(function(evt) {
-      document.removeEventListener(evt, playOnInteraction);
-    });
-    clearInterval(checkInterval);
-  }
-}, 500);
-// Safety: stop checking after 30s
-setTimeout(function() { clearInterval(checkInterval); }, 30000);
 
 (function() {
   // ===== LIGHTBOX =====
