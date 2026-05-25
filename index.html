@@ -240,7 +240,9 @@ body {
 }
 .music-btn:active { transform: scale(.9); }
 .music-btn.playing { animation: spin 4s linear infinite; }
+.music-btn.paused { animation: pulse 1.8s ease-in-out infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
+@keyframes pulse { 0%,100% { box-shadow: 0 2px 12px rgba(0,0,0,.1); } 50% { box-shadow: 0 2px 24px rgba(212,132,154,.5); } }
 .music-btn.playing:active { animation: spin 4s linear infinite; }
 
 @media (max-width: 380px) {
@@ -553,35 +555,81 @@ body {
 </div>
 
 <script>
-// ===== MUSIC =====
+// ===== MUSIC (robust mobile autoplay) =====
 var bgMusic = document.getElementById('bgMusic');
 var musicBtn = document.getElementById('musicBtn');
+var musicStarted = false;
+
+function startMusic() {
+  if (!musicStarted && bgMusic.paused) {
+    musicStarted = true;
+    bgMusic.play().then(function() {
+      musicBtn.classList.add('playing');
+      musicBtn.classList.remove('paused');
+      musicBtn.textContent = '🎶';
+    }).catch(function() {
+      musicStarted = false;
+    });
+  }
+}
+
 window.toggleMusic = function() {
   if (bgMusic.paused) {
     bgMusic.play().then(function() {
       musicBtn.classList.add('playing');
+      musicBtn.classList.remove('paused');
       musicBtn.textContent = '🎶';
     }).catch(function() {});
   } else {
     bgMusic.pause();
     musicBtn.classList.remove('playing');
+    musicBtn.classList.add('paused');
     musicBtn.textContent = '🎵';
   }
 };
-// Auto-play immediately
+
+// Mark as paused initially (triggers pulse animation)
+musicBtn.classList.add('paused');
+
+// Strategy 1: WeChat built-in browser autoplay
+if (typeof WeixinJSBridge !== 'undefined') {
+  WeixinJSBridge.invoke('getNetworkType', {}, function() {
+    startMusic();
+  });
+}
+document.addEventListener('WeixinJSBridgeReady', function() {
+  startMusic();
+}, false);
+
+// Strategy 2: Try autoplay on load (works on desktop, may fail on mobile)
 bgMusic.play().then(function() {
+  musicStarted = true;
   musicBtn.classList.add('playing');
+  musicBtn.classList.remove('paused');
   musicBtn.textContent = '🎶';
 }).catch(function() {
-  // If autoplay blocked, play on first user interaction
-  document.addEventListener('click', function once() {
-    bgMusic.play().then(function() {
-      musicBtn.classList.add('playing');
-      musicBtn.textContent = '🎶';
-    }).catch(function() {});
-    document.removeEventListener('click', once);
-  }, { once: true });
+  // Mobile blocked autoplay — wait for user gesture
 });
+
+// Strategy 3: Catch ANY user interaction to fire playback
+var interactionEvents = ['click', 'touchstart', 'touchend', 'scroll'];
+function playOnInteraction() {
+  if (!musicStarted) startMusic();
+}
+interactionEvents.forEach(function(evt) {
+  document.addEventListener(evt, playOnInteraction, { once: false, passive: true });
+});
+// After music starts, remove all listeners
+var checkInterval = setInterval(function() {
+  if (musicStarted) {
+    interactionEvents.forEach(function(evt) {
+      document.removeEventListener(evt, playOnInteraction);
+    });
+    clearInterval(checkInterval);
+  }
+}, 500);
+// Safety: stop checking after 30s
+setTimeout(function() { clearInterval(checkInterval); }, 30000);
 
 (function() {
   // ===== LIGHTBOX =====
