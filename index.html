@@ -557,19 +557,25 @@ body {
 </div>
 
 <script>
-// ===== MUSIC (manual click-to-play only, no auto-download) =====
+// ===== MUSIC (auto-play with graceful fallback) =====
 var bgMusic = document.getElementById('bgMusic');
 var musicBtn = document.getElementById('musicBtn');
+var musicHint = document.getElementById('musicHint');
+
+function playOk() {
+  musicBtn.classList.add('playing');
+  musicBtn.classList.remove('paused');
+  musicBtn.textContent = '🎶';
+  if (musicHint) musicHint.style.display = 'none';
+}
+
+function tryPlay() {
+  bgMusic.play().then(playOk).catch(function(){});
+}
 
 window.toggleMusic = function() {
   if (bgMusic.paused) {
-    bgMusic.play().then(function() {
-      musicBtn.classList.add('playing');
-      musicBtn.classList.remove('paused');
-      musicBtn.textContent = '🎶';
-      var hint = document.getElementById('musicHint');
-      if (hint) hint.style.display = 'none';
-    }).catch(function() {});
+    bgMusic.play().then(playOk).catch(function(){});
   } else {
     bgMusic.pause();
     musicBtn.classList.remove('playing');
@@ -578,8 +584,25 @@ window.toggleMusic = function() {
   }
 };
 
-// Show paused state (pulse animation to draw attention)
 musicBtn.classList.add('paused');
+
+// WeChat browser: autoplay when bridge is ready
+document.addEventListener('WeixinJSBridgeReady', function() { tryPlay(); }, false);
+if (typeof WeixinJSBridge !== 'undefined') {
+  WeixinJSBridge.invoke('getNetworkType', {}, function() { tryPlay(); });
+}
+
+// Desktop / other browsers: slight delay so cover renders first, then try
+setTimeout(function() { tryPlay(); }, 1500);
+
+// Fallback: if autoplay was blocked, try on first user click/touch
+function firstInteraction() {
+  if (bgMusic.paused) tryPlay();
+  document.removeEventListener('click', firstInteraction);
+  document.removeEventListener('touchstart', firstInteraction);
+}
+document.addEventListener('click', firstInteraction);
+document.addEventListener('touchstart', firstInteraction);
 
 (function() {
   // ===== LIGHTBOX =====
