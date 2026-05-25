@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>结婚周年报告 · 我们的故事</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', sans-serif;
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-overflow-scrolling: touch;
+}
+
+.scroll-container {
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+  height: 100vh;
+  height: 100dvh;
+  scroll-behavior: smooth;
+}
+
+/* ===== SECTIONS ===== */
+.section {
+  scroll-snap-align: start;
+  min-height: 100vh; min-height: 100dvh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 36px 18px 40px;
+  position: relative; overflow: hidden;
+}
+
+/* Clean gradient backgrounds – no floating elements */
+.s-cover  { background: linear-gradient(175deg, #f5e6f0 0%, #f0d9e8 25%, #e8d0dc 50%, #f5e8d8 80%, #faf0e0 100%); }
+.s-meet   { background: linear-gradient(175deg, #f0e6f5 0%, #e8d8f0 30%, #e0d0e8 60%, #f5f0e8 100%); }
+.s-know   { background: linear-gradient(175deg, #fef8f0 0%, #fdf0e0 30%, #fae8d0 60%, #fef5eb 100%); }
+.s-love   { background: linear-gradient(175deg, #fef0f4 0%, #fde0ea 30%, #fcd0de 60%, #fef4f6 100%); }
+.s-rings  { background: linear-gradient(175deg, #f2f8f0 0%, #e4f0e0 30%, #d8ecd0 60%, #f4faf2 100%); }
+.s-baby   { background: linear-gradient(175deg, #f5f0f8 0%, #ece0f4 30%, #e2d0f0 60%, #f7f4fa 100%); }
+.s-birth  { background: linear-gradient(175deg, #fefdf0 0%, #fef8d8 30%, #fdf4c0 60%, #fffef6 100%); }
+.s-end    { background: linear-gradient(175deg, #f5e6f0 0%, #f0e0ec 20%, #faf0e0 55%, #f0e6f5 80%, #f5e6f0 100%); }
+
+/* ===== TYPOGRAPHY ===== */
+.sec-num {
+  font-size: 60px; font-weight: 900; opacity: 0.04;
+  position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
+  color: #000; line-height: 1; pointer-events: none;
+}
+.sec-t { font-size: 24px; font-weight: 900; color: #4a3a50; text-align: center; margin-bottom: 2px; z-index: 1; }
+.sec-s { font-size: 11px; color: #9a8aa0; text-align: center; margin-bottom: 14px; z-index: 1; letter-spacing: 1.5px; }
+
+/* ===== FADE-IN ONLY (no float) ===== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.anim { animation: fadeIn 0.5s ease both; }
+.a1{animation-delay:0.06s} .a2{animation-delay:0.15s} .a3{animation-delay:0.24s}
+.a4{animation-delay:0.33s} .a5{animation-delay:0.42s} .a6{animation-delay:0.51s}
+
+/* ===== PHOTOS ===== */
+.photo-row {
+  display: flex; gap: 10px; flex-wrap: wrap;
+  justify-content: center; z-index: 1; margin: 8px 0;
+}
+.photo-pola {
+  background: #fff; padding: 8px 8px 24px;
+  border-radius: 3px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.05);
+  position: relative;
+}
+.photo-pola .p-img {
+  width: 120px; height: 120px;
+  background: #f5f5f5; border-radius: 2px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 32px; color: #d8d8d8; overflow: hidden;
+}
+.photo-pola .p-img img { width: 100%; height: 100%; object-fit: cover; }
+.photo-pola .p-label { font-size: 13px; color: #3a3030; font-weight: 700; text-align: center; margin-top: 6px; letter-spacing: .5px; }
+
+.photo-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 8px; max-width: 280px; width: 100%; z-index: 1; margin: 8px 0;
+}
+.photo-grid .photo-pola { padding: 6px 6px 20px; }
+.photo-grid .photo-pola .p-img { width: 115px; height: 115px; font-size: 26px; }
+
+.photo-big {
+  width: 170px; height: 170px;
+  background: #fff; border-radius: 16px;
+  border: 4px solid #fff;
+  box-shadow: 0 4px 18px rgba(0,0,0,.04);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 40px; color: #d8d8d8;
+  margin: 8px 0; z-index: 1; overflow: hidden;
+}
+.photo-big img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ===== CARDS ===== */
+.card {
+  background: rgba(255,255,255,.75);
+  border-radius: 18px; padding: 14px 16px;
+  max-width: 340px; width: 100%;
+  box-shadow: 0 3px 16px rgba(0,0,0,.03);
+  z-index: 1;
+  border: 1px solid rgba(255,255,255,.6);
+}
+.card .card-emoji { font-size: 32px; text-align: center; margin-bottom: 6px; line-height: 1; }
+.card .card-text { font-size: 14px; color: #5a4a60; line-height: 1.7; text-align: center; }
+.card .hl {
+  display: inline-block;
+  background: linear-gradient(180deg, transparent 56%, #ffe0b2 56%);
+  padding: 0 4px; font-weight: 700; color: #d2691e; border-radius: 2px;
+}
+
+/* ===== STATS ===== */
+.stat-row { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; justify-content: center; z-index: 1; }
+.stat-item {
+  background: #fff; border-radius: 12px;
+  padding: 9px 10px; text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,.025);
+  min-width: 65px; flex: 1; border: 1px solid #f0f0f0;
+}
+.stat-item .sn { font-size: 20px; font-weight: 900; color: #d4849a; line-height: 1; }
+.stat-item .sl { font-size: 10px; color: #9a8aa0; margin-top: 2px; }
+
+/* ===== STICKER ===== */
+.sticker {
+  background: #fff8e8; border-radius: 12px;
+  padding: 9px 12px; margin-top: 8px;
+  text-align: center; font-size: 12px; color: #b8860b;
+  border: 1.5px dashed #f0d878; z-index: 1; max-width: 300px;
+}
+.badge {
+  display: inline-block; background: #fff;
+  padding: 3px 9px; border-radius: 12px; font-size: 10px;
+  color: #aaa; margin: 2px; border: 1px solid #eee;
+}
+
+/* ===== BARS ===== */
+.bars { margin-top: 8px; max-width: 300px; width: 100%; z-index: 1; }
+.b-item { margin-bottom: 7px; }
+.b-label { font-size: 11px; color: #7a6a80; margin-bottom: 2px; display: flex; justify-content: space-between; }
+.b-track { height: 8px; background: #eee; border-radius: 8px; overflow: hidden; }
+.b-fill { height: 100%; border-radius: 8px; }
+.bf-pink{background:linear-gradient(90deg,#f0c0d0,#d4849a)}
+.bf-lav{background:linear-gradient(90deg,#d8c8e8,#b09cc8)}
+.bf-warm{background:linear-gradient(90deg,#f0d890,#d4a84a)}
+
+/* ===== COVER ===== */
+.cover-tag {
+  font-size: 15px; color: #8a5a6a; font-weight: 700;
+  letter-spacing: 3px; animation: fadeIn .5s ease; z-index: 1;
+}
+.cover-title {
+  font-size: 36px; font-weight: 900; color: #6a3a5a;
+  text-align: center; line-height: 1.25;
+  animation: fadeIn .5s ease .1s both; z-index: 1;
+  text-shadow: 0 1px 4px rgba(255,255,255,.4);
+}
+.cover-date-box {
+  background: rgba(255,255,255,.65);
+  border-radius: 12px; padding: 8px 18px;
+  margin-top: 14px; text-align: center;
+  animation: fadeIn .5s ease .3s both; z-index: 1;
+  box-shadow: 0 1px 8px rgba(0,0,0,.03);
+}
+.cover-date-box .cd-date { font-size: 20px; font-weight: 900; color: #6a3a5a; letter-spacing: 2px; }
+.cover-date-box .cd-days { font-size: 11px; color: #9a7a8a; margin-top: 1px; }
+.cover-names {
+  font-size: 18px; color: #6a3a5a;
+  text-align: center; margin-top: 12px; letter-spacing: 3px;
+  animation: fadeIn .5s ease .4s both; z-index: 1;
+}
+.cover-btn {
+  display: inline-block; background: #fff;
+  color: #8a5a6a; padding: 9px 24px;
+  border-radius: 40px; font-size: 14px; font-weight: 700;
+  margin-top: 16px;
+  box-shadow: 0 2px 12px rgba(140,90,110,.15);
+  animation: fadeIn .5s ease .5s both; letter-spacing: 2px; z-index: 1;
+}
+.scroll-hint {
+  position: absolute; bottom: 20px;
+  display: flex; flex-direction: column; align-items: center;
+  color: rgba(140,90,110,.4); font-size: 10px;
+  animation: fadeIn .5s ease .7s both; z-index: 1;
+}
+.scroll-hint .arr { font-size: 18px; margin-top: 2px; }
+
+
+/* ===== DOTS NAV ===== */
+.dots-nav {
+  position: fixed; right: 8px; top: 50%; transform: translateY(-50%);
+  display: flex; flex-direction: column; gap: 7px; z-index: 100;
+}
+.dots-nav .dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: rgba(0,0,0,.1); transition: all .25s; cursor: pointer;
+}
+.dots-nav .dot.on { background: #d4849a; transform: scale(1.4); }
+
+.foot { margin-top: 24px; text-align: center; font-size: 10px; color: #d0c0d0; z-index: 1; }
+
+/* ===== LIGHTBOX ===== */
+.lightbox {
+  display: none; position: fixed; z-index: 999;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,.88);
+  align-items: center; justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+}
+.lightbox.show { display: flex; }
+.lightbox img {
+  max-width: 92vw; max-height: 88vh;
+  border-radius: 8px; box-shadow: 0 8px 40px rgba(0,0,0,.5);
+  object-fit: contain;
+}
+.lightbox-close {
+  position: absolute; top: 16px; right: 20px;
+  font-size: 36px; color: #fff; cursor: pointer;
+  z-index: 1000; line-height: 1;
+  width: 44px; height: 44px;
+  display: flex; align-items: center; justify-content: center;
+}
+.p-img { cursor: pointer; }
+.photo-big { cursor: pointer; }
+
+@media (max-width: 380px) {
+  .section { padding: 28px 14px 32px; }
+  .photo-pola .p-img { width: 100px; height: 100px; }
+  .photo-grid .photo-pola .p-img { width: 100px; height: 100px; }
+  .photo-grid { max-width: 240px; }
+  .photo-big { width: 150px; height: 150px; }
+  .card { padding: 12px 12px; }
+  .cover-title { font-size: 30px; }
+  .sec-t { font-size: 22px; }
+}
+</style>
+</head>
+<body>
+
+<div class="dots-nav" id="navDots"></div>
+
+<div class="scroll-container" id="scrollWrap">
+
+<!-- ==================== COVER ==================== -->
+<section class="section s-cover">
+
+  <!-- big title at top -->
+  <div class="cover-hero" style="font-size:52px;font-weight:900;color:#6a3a5a;text-align:center;line-height:1.1;z-index:1;animation:fadeIn .5s ease;letter-spacing:6px;text-shadow:0 1px 6px rgba(255,255,255,.4);">
+    周年报告
+  </div>
+
+  <div style="font-size:14px;color:#8a6a7a;text-align:center;margin-top:4px;z-index:1;letter-spacing:2px;animation:fadeIn .5s ease .08s both;">
+    结婚两周年快乐！
+  </div>
+
+  <div class="cover-date-box" style="margin-top:20px;">
+    <div class="cd-date">2024年5月25日</div>
+    <div class="cd-days">至今已相伴 727 天 💕</div>
+  </div>
+  <div class="cover-names">👨 陈冬驹 &amp; 黄晓娜 👩</div>
+  <div class="cover-btn">📖 翻开我们的故事</div>
+  <div class="scroll-hint">下滑翻页 <span class="arr">↓</span></div>
+</section>
+
+<!-- ==================== CH1 · 相识 ==================== -->
+<section class="section s-meet">
+  <div class="sec-num">01</div>
+  <div class="sec-t anim">📌 第一章</div>
+  <div class="sec-s anim a1">Chapter 1 · 相 识</div>
+
+  <div class="photo-row anim a2">
+    <div class="photo-pola" style="rotate:-3deg;"><div class="p-img"><img src="photo/1.jpg" alt=""></div><div class="p-label">第一次约会</div></div>
+    <div class="photo-pola" style="rotate:2deg;"><div class="p-img"><img src="photo/2.jpg" alt=""></div><div class="p-label">初印象：这人还行</div></div>
+  </div>
+
+  <div class="card anim a3">
+    <div class="card-emoji">👀</div>
+    <div class="card-text">
+      2023年12月4日<br>
+      两个<span class="hl">素不相识</span>的年轻人<br>
+      约好去做手工<br><br>
+      <span style="font-size:11px;color:#b0a0b0;">
+        "据老婆事后回忆当时就觉得这人还行吧"<br>（老公：啊啊啊啊啊啊！）
+      </span>
+    </div>
+  </div>
+
+  <div class="sticker anim a4">
+    初印象关键词<br>
+    <span class="badge">好像挺靠谱</span><span class="badge">笑起来好看</span><span class="badge">观察一下</span>
+  </div>
+
+  <div class="stat-row anim a5">
+    <div class="stat-item"><div class="sn">100%</div><div class="sl">偶然相遇率</div></div>
+    <div class="stat-item"><div class="sn">∞</div><div class="sl">心跳加速</div></div>
+    <div class="stat-item"><div class="sn">🎯</div><div class="sl">命中注定</div></div>
+  </div>
+</section>
+
+<!-- ==================== CH2 · 相知 ==================== -->
+<section class="section s-know">
+  <div class="sec-num">02</div>
+  <div class="sec-t anim">💬 第二章</div>
+  <div class="sec-s anim a1">Chapter 2 · 相 知</div>
+
+  <div class="photo-grid anim a2">
+    <div class="photo-pola" style="rotate:-3deg;"><div class="p-img"><img src="photo/3.jpg" alt=""></div><div class="p-label">第一次在麓湖公园</div></div>
+    <div class="photo-pola" style="rotate:2deg;"><div class="p-img"><img src="photo/4.jpg" alt=""></div><div class="p-label">第一次去顺德</div></div>
+    <div class="photo-pola" style="rotate:1deg;"><div class="p-img"><img src="photo/5.jpg" alt=""></div><div class="p-label">第一次看音乐节</div></div>
+    <div class="photo-pola" style="rotate:-2deg;"><div class="p-img"><img src="photo/6.jpg" alt=""></div><div class="p-label">第一次出门</div></div>
+  </div>
+
+  <div class="card anim a3">
+    <div class="card-text">
+      聊天记录从 <span class="hl">"你好"</span> 到 <span class="hl">"晚安，明天见"</span><br>
+      耗时：未知天 · 流量：天文数字<br>
+      培养感情：<span class="hl">✅ 完成</span>
+    </div>
+  </div>
+
+  <div class="bars anim a4">
+    <div class="b-item"><div class="b-label"><span>了解彼此程度</span><span>95%</span></div><div class="b-track"><div class="b-fill bf-pink" style="width:95%"></div></div></div>
+    <div class="b-item"><div class="b-label"><span>默契指数</span><span>88%</span></div><div class="b-track"><div class="b-fill bf-lav" style="width:88%"></div></div></div>
+    <div class="b-item"><div class="b-label"><span>互相吐槽次数</span><span>N+</span></div><div class="b-track"><div class="b-fill bf-warm" style="width:72%"></div></div></div>
+  </div>
+</section>
+
+<!-- ==================== CH3 · 相恋 ==================== -->
+<section class="section s-love">
+  <div class="sec-num">03</div>
+  <div class="sec-t anim">❤️ 第三章</div>
+  <div class="sec-s anim a1">Chapter 3 · 相 恋</div>
+
+  <div class="photo-big anim a2"><img src="photo/7.jpg" alt=""></div>
+
+  <div class="card anim a3">
+    <div class="card-emoji">💘</div>
+    <div class="card-text">
+      在无法考证的精确时刻<br>关系发生<span class="hl">质变</span><br>
+      🍜 吃遍全城 🎬 看电影吐槽<br>
+      🛒 逛超市 🏠 宅家终极考验
+    </div>
+  </div>
+
+  <div class="photo-row anim a4">
+    <div class="photo-pola" style="rotate:-4deg;"><div class="p-img"><img src="photo/8.jpg" alt=""></div><div class="p-label">香港摩天轮合影</div></div>
+    <div class="photo-pola" style="rotate:3deg;"><div class="p-img"><img src="photo/9.jpg" alt=""></div><div class="p-label">香港之行的日落</div></div>
+  </div>
+
+  <div class="sticker anim a5">
+    恋爱成就解锁：把对方喂胖 <span class="hl">____</span> 斤（加密）
+  </div>
+
+  <div class="stat-row anim a6">
+    <div class="stat-item"><div class="sn">N</div><div class="sl">约会次数</div></div>
+    <div class="stat-item"><div class="sn">N+1</div><div class="sl">吵架次数</div></div>
+    <div class="stat-item"><div class="sn">N+2</div><div class="sl">和好次数</div></div>
+  </div>
+</section>
+
+<!-- ==================== CH4 · 领证 ==================== -->
+<section class="section s-rings">
+  <div class="sec-num">04</div>
+  <div class="sec-t anim">💍 第四章</div>
+  <div class="sec-s anim a1">Chapter 4 · 领 证</div>
+
+  <div class="photo-row anim a2">
+    <div class="photo-pola" style="rotate:-3deg;"><div class="p-img"><img src="photo/10.jpg" alt=""></div><div class="p-label">红本本</div></div>
+    <div class="photo-pola" style="rotate:2deg;"><div class="p-img"><img src="photo/11.jpg" alt=""></div><div class="p-label">领证当天</div></div>
+  </div>
+
+  <div style="display:flex;gap:10px;font-size:34px;z-index:1;margin:6px 0;align-items:center;" class="anim a3">
+    <span>💍</span><span style="font-size:20px">+</span><span>💍</span><span style="font-size:20px">=</span><span>🎉</span>
+  </div>
+
+  <div class="card anim a4">
+    <div class="card-text">
+      2024年5月25日<br>民政局见证<span class="hl">重大决定</span><br>
+      两个独立个体正式成为<span class="hl">合法队友</span><br>
+      <span style="font-size:11px;color:#b0a0b0;">（签收概不退换）</span>
+    </div>
+  </div>
+
+  <div class="photo-big anim a5" style="width:150px;height:150px;"><img src="photo/12.jpg" alt=""></div>
+
+  <div class="stat-row anim a6">
+    <div class="stat-item"><div class="sn">✅</div><div class="sl">领证成功</div></div>
+    <div class="stat-item"><div class="sn">727+</div><div class="sl">天甜蜜</div></div>
+    <div class="stat-item"><div class="sn">🔒</div><div class="sl">终身绑定</div></div>
+  </div>
+</section>
+
+<!-- ==================== CH5 · 孕期 ==================== -->
+<section class="section s-baby">
+  <div class="sec-num">05</div>
+  <div class="sec-t anim">🤰 第五章</div>
+  <div class="sec-s anim a1">Chapter 5 · 孕 期</div>
+
+  <div class="photo-grid anim a2">
+    <div class="photo-pola" style="rotate:-2deg;"><div class="p-img"><img src="photo/13.jpg" alt=""></div><div class="p-label">肚子渐渐大啦</div></div>
+    <div class="photo-pola" style="rotate:3deg;"><div class="p-img"><img src="photo/14.jpg" alt=""></div><div class="p-label">美美哒孕妇照</div></div>
+    <div class="photo-pola" style="rotate:-1deg;"><div class="p-img"><img src="photo/15.jpg" alt=""></div><div class="p-label">B超照片</div></div>
+    <div class="photo-pola" style="rotate:2deg;"><div class="p-img"><img src="photo/16.jpg" alt=""></div><div class="p-label">生产前合影</div></div>
+  </div>
+
+  <div class="card anim a3">
+    <div class="card-emoji">🎁</div>
+    <div class="card-text">
+      系统提示：家庭即将迎来<span class="hl">新成员</span><br>
+      🥗 N种营养餐 🏥 N次产检<br>
+      📚 N本育儿书 😴 N个不安稳的觉<br>
+      <span style="font-size:11px;color:#d4849a;">准爸爸也在努力预习！</span>
+    </div>
+  </div>
+
+  <div class="sticker anim a4">
+    🤰 孕期金句 TOP 1：<br>
+    "想吃啥？""随便。不对，不是这个随便！"
+  </div>
+</section>
+
+<!-- ==================== CH6 · 迎新 ==================== -->
+<section class="section s-birth">
+  <div class="sec-num">06</div>
+  <div class="sec-t anim">👶 第六章</div>
+  <div class="sec-s anim a1">Chapter 6 · 迎 新</div>
+
+  <div class="photo-grid anim a2">
+    <div class="photo-pola" style="rotate:-3deg;"><div class="p-img"><img src="photo/17.jpg" alt=""></div><div class="p-label">第一天</div></div>
+    <div class="photo-pola" style="rotate:2deg;"><div class="p-img"><img src="photo/18.jpg" alt=""></div><div class="p-label">小脚丫</div></div>
+    <div class="photo-pola" style="rotate:1deg;"><div class="p-img"><img src="photo/19.jpg" alt=""></div><div class="p-label">100天啦</div></div>
+    <div class="photo-pola" style="rotate:-2deg;"><div class="p-img"><img src="photo/20.jpg" alt=""></div><div class="p-label">上周的笑容</div></div>
+  </div>
+
+  <div class="card anim a3">
+    <div class="card-text">
+      家庭版本 <span class="hl">3.0</span> 正式上线！<br>
+      🍼 24h投喂 🎵 自带BGM<br>
+      💩 随机事件 🥰 超高治愈力<br>
+      <span style="font-size:11px;color:#b0a0b0;">Bug 很多，但舍不得修</span>
+    </div>
+  </div>
+
+  <div class="photo-big anim a4" style="width:150px;height:150px;"><img src="photo/21.jpg" alt=""></div>
+
+  <div class="stat-row anim a5">
+    <div class="stat-item"><div class="sn">👨‍👩‍👧</div><div class="sl">从2到3</div></div>
+    <div class="stat-item"><div class="sn">∞</div><div class="sl">幸福指数</div></div>
+    <div class="stat-item"><div class="sn">🎯</div><div class="sl">新角色达成</div></div>
+  </div>
+</section>
+
+<!-- ==================== ENDING + QR ==================== -->
+<section class="section s-end">
+
+  <div style="font-size:24px;font-weight:900;color:#6a3a5a;text-align:center;z-index:1;" class="anim">
+    📖 未完待续...
+  </div>
+
+  <div class="card anim a2" style="text-align:center;margin-top:12px;">
+    <div style="font-size:34px;margin-bottom:6px;">🎂</div>
+    <div class="card-text">
+      结婚两周年快乐！<br>
+      从两个人的小世界到三个人的小宇宙<br>
+      谢谢你把每一天都过成了<span class="hl">最好的版本</span>
+    </div>
+  </div>
+
+  <div style="font-size:16px;font-weight:700;color:#6a3a5a;margin-top:12px;z-index:1;letter-spacing:2px;" class="anim a3">
+    👨 陈冬驹 &amp; 黄晓娜 👩
+  </div>
+
+  <!-- two family photos -->
+  <div class="photo-row anim a4">
+    <div class="photo-pola" style="rotate:-3deg;"><div class="p-img"><img src="photo/22.jpg" alt=""></div><div class="p-label">春节合影</div></div>
+    <div class="photo-pola" style="rotate:2deg;"><div class="p-img"><img src="photo/23.jpg" alt=""></div><div class="p-label">婚宴合影</div></div>
+  </div>
+
+  <div style="font-size:18px;font-weight:700;color:#6a3a5a;margin-top:8px;z-index:1;letter-spacing:1px;text-align:center;" class="anim a5">
+    幸福的一家三口才刚刚开始！
+  </div>
+
+  <div class="foot anim a6">
+    🏠 内部档案 · 仅供家庭成员查看<br>© 2026 小陈&小黄幸福无限公司
+  </div>
+</section>
+
+</div>
+
+<!-- lightbox -->
+<div class="lightbox" id="lightbox">
+  <span class="lightbox-close" id="lbClose">&times;</span>
+  <img id="lbImg" src="" alt="">
+</div>
+
+<script>
+(function() {
+  // ===== LIGHTBOX =====
+  var lb = document.getElementById('lightbox');
+  var lbImg = document.getElementById('lbImg');
+  var lbClose = document.getElementById('lbClose');
+  document.querySelectorAll('.p-img img, .photo-big img').forEach(function(img) {
+    img.addEventListener('click', function() {
+      lbImg.src = this.src;
+      lb.classList.add('show');
+    });
+  });
+  lbClose.addEventListener('click', function() { lb.classList.remove('show'); });
+  lb.addEventListener('click', function(e) { if (e.target === lb) lb.classList.remove('show'); });
+
+  // ===== NAV DOTS =====
+  var secs = document.querySelectorAll('.section');
+  var nav = document.getElementById('navDots');
+  var dots = [];
+  secs.forEach(function(_, i) {
+    var d = document.createElement('div');
+    d.className = 'dot';
+    d.onclick = function() { secs[i].scrollIntoView({ behavior: 'smooth' }); };
+    nav.appendChild(d);
+    dots.push(d);
+  });
+  if (dots[0]) dots[0].classList.add('on');
+
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        var i = Array.prototype.indexOf.call(secs, e.target);
+        dots.forEach(function(d, j) { d.classList.toggle('on', j === i); });
+        e.target.querySelectorAll('.anim').forEach(function(el) {
+          el.style.animation = 'none'; el.offsetHeight; el.style.animation = '';
+        });
+        e.target.querySelectorAll('.b-fill').forEach(function(bar) {
+          var w = bar.style.width;
+          bar.style.width = '0';
+          requestAnimationFrame(function() {
+            requestAnimationFrame(function() { bar.style.width = w; });
+          });
+        });
+      }
+    });
+  }, { threshold: 0.5 });
+  secs.forEach(function(s) { obs.observe(s); });
+})();
+</script>
+</body>
+</html>
