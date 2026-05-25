@@ -228,6 +228,21 @@ body {
 .p-img { cursor: pointer; }
 .photo-big { cursor: pointer; }
 
+/* ===== MUSIC PLAYER ===== */
+.music-btn {
+  position: fixed; top: 16px; right: 16px; z-index: 200;
+  width: 42px; height: 42px; border-radius: 50%;
+  background: rgba(255,255,255,.7); border: none;
+  font-size: 20px; cursor: pointer;
+  box-shadow: 0 2px 12px rgba(0,0,0,.1);
+  display: flex; align-items: center; justify-content: center;
+  transition: transform .3s;
+}
+.music-btn:active { transform: scale(.9); }
+.music-btn.playing { animation: spin 4s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.music-btn.playing:active { animation: spin 4s linear infinite; }
+
 @media (max-width: 380px) {
   .section { padding: 28px 14px 32px; }
   .photo-pola .p-img { width: 100px; height: 100px; }
@@ -242,6 +257,11 @@ body {
 </head>
 <body>
 
+<!-- music button -->
+<button class="music-btn" id="musicBtn" onclick="toggleMusic()" title="播放音乐">🎵</button>
+<!-- audio -->
+<audio id="bgMusic" src="music.mp3" preload="auto" loop></audio>
+
 <div class="dots-nav" id="navDots"></div>
 
 <div class="scroll-container" id="scrollWrap">
@@ -249,20 +269,54 @@ body {
 <!-- ==================== COVER ==================== -->
 <section class="section s-cover">
 
-  <!-- big title at top -->
-  <div class="cover-hero" style="font-size:52px;font-weight:900;color:#6a3a5a;text-align:center;line-height:1.1;z-index:1;animation:fadeIn .5s ease;letter-spacing:6px;text-shadow:0 1px 6px rgba(255,255,255,.4);">
-    周年报告
+  <!-- soft pink glow background -->
+  <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:320px;height:320px;background:radial-gradient(circle,rgba(255,220,230,.5) 0%,rgba(255,220,230,0) 70%);z-index:0;pointer-events:none;border-radius:50%;"></div>
+
+  <!-- floating hearts -->
+  <svg style="position:absolute;top:8%;left:8%;z-index:0;pointer-events:none;" width="50" height="50" viewBox="0 0 50 50">
+    <path d="M25 40 C10 28, 5 18, 5 12 C5 5, 12 2, 18 5 C22 7, 25 12, 25 12 C25 12, 28 7, 32 5 C38 2, 45 5, 45 12 C45 18, 40 28, 25 40 Z" fill="none" stroke="#e07090" stroke-width="2.5" opacity="0.35"/>
+  </svg>
+  <svg style="position:absolute;top:5%;right:12%;z-index:0;pointer-events:none;" width="40" height="40" viewBox="0 0 50 50">
+    <path d="M25 40 C10 28, 5 18, 5 12 C5 5, 12 2, 18 5 C22 7, 25 12, 25 12 C25 12, 28 7, 32 5 C38 2, 45 5, 45 12 C45 18, 40 28, 25 40 Z" fill="none" stroke="#e07090" stroke-width="2.5" opacity="0.3"/>
+  </svg>
+  <svg style="position:absolute;bottom:30%;left:5%;z-index:0;pointer-events:none;" width="36" height="36" viewBox="0 0 50 50">
+    <path d="M25 40 C10 28, 5 18, 5 12 C5 5, 12 2, 18 5 C22 7, 25 12, 25 12 C25 12, 28 7, 32 5 C38 2, 45 5, 45 12 C45 18, 40 28, 25 40 Z" fill="none" stroke="#d090b0" stroke-width="2" opacity="0.25"/>
+  </svg>
+  <svg style="position:absolute;bottom:20%;right:8%;z-index:0;pointer-events:none;" width="44" height="44" viewBox="0 0 50 50">
+    <path d="M25 40 C10 28, 5 18, 5 12 C5 5, 12 2, 18 5 C22 7, 25 12, 25 12 C25 12, 28 7, 32 5 C38 2, 45 5, 45 12 C45 18, 40 28, 25 40 Z" fill="none" stroke="#e07090" stroke-width="2.5" opacity="0.3"/>
+  </svg>
+
+  <!-- decorative dots -->
+  <div style="position:absolute;top:15%;right:20%;width:10px;height:10px;background:#fff;border-radius:50%;opacity:.6;z-index:0;pointer-events:none;"></div>
+  <div style="position:absolute;top:22%;left:15%;width:8px;height:8px;background:#fff;border-radius:50%;opacity:.5;z-index:0;pointer-events:none;"></div>
+  <div style="position:absolute;bottom:35%;right:25%;width:12px;height:12px;background:#fff;border-radius:50%;opacity:.55;z-index:0;pointer-events:none;"></div>
+  <div style="position:absolute;bottom:28%;left:22%;width:9px;height:9px;background:#fff;border-radius:50%;opacity:.45;z-index:0;pointer-events:none;"></div>
+
+  <!-- 2周年快乐 arch + dogs image + 周年报告 overlay (grouped to eliminate gaps) -->
+  <div style="display:flex;flex-direction:column;align-items:center;z-index:1;animation:fadeIn .6s ease;">
+    <!-- arch title -->
+    <div style="display:flex;justify-content:center;align-items:flex-start;gap:4px;">
+      <span style="font-size:60px;font-weight:900;color:#5a2a4a;transform:translateY(14px);filter:drop-shadow(0 2px 4px rgba(255,255,255,.4));">2</span>
+      <span style="font-size:60px;font-weight:900;color:#5a2a4a;transform:translateY(4px);filter:drop-shadow(0 2px 4px rgba(255,255,255,.4));">周</span>
+      <span style="font-size:60px;font-weight:900;color:#5a2a4a;transform:translateY(0);filter:drop-shadow(0 2px 4px rgba(255,255,255,.4));">年</span>
+      <span style="font-size:60px;font-weight:900;color:#5a2a4a;transform:translateY(4px);filter:drop-shadow(0 2px 4px rgba(255,255,255,.4));">快</span>
+      <span style="font-size:60px;font-weight:900;color:#5a2a4a;transform:translateY(14px);filter:drop-shadow(0 2px 4px rgba(255,255,255,.4));">乐</span>
+    </div>
+
+    <!-- dogs image with 周年报告 overlaid on bottom -->
+    <div style="position:relative;display:inline-block;line-height:0;margin-top:-100px;">
+      <img src="cover-dogs.png" alt="LOVE YOU" style="width:300px;height:auto;display:block;filter:drop-shadow(0 4px 12px rgba(0,0,0,.08));">
+      <div style="position:absolute;bottom:6px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:28px;font-weight:700;color:#7a5a6a;letter-spacing:8px;padding:16px 18px 6px;background:linear-gradient(to bottom,transparent 0%,rgba(255,255,255,.35) 20%,rgba(255,255,255,.7) 50%,rgba(255,255,255,.85) 100%);border-radius:4px;line-height:1.2;">
+        周年报告
+      </div>
+    </div>
   </div>
 
-  <div style="font-size:14px;color:#8a6a7a;text-align:center;margin-top:4px;z-index:1;letter-spacing:2px;animation:fadeIn .5s ease .08s both;">
-    结婚两周年快乐！
-  </div>
-
-  <div class="cover-date-box" style="margin-top:20px;">
+  <div class="cover-date-box" style="margin-top:0;">
     <div class="cd-date">2024年5月25日</div>
-    <div class="cd-days">至今已相伴 727 天 💕</div>
+    <div class="cd-days">至今已结婚 730 天 💕</div>
   </div>
-  <div class="cover-names">👨 陈冬驹 &amp; 黄晓娜 👩</div>
+  <div class="cover-names"> 陈冬驹 &amp; 黄晓娜 </div>
   <div class="cover-btn">📖 翻开我们的故事</div>
   <div class="scroll-hint">下滑翻页 <span class="arr">↓</span></div>
 </section>
@@ -390,7 +444,7 @@ body {
 
   <div class="stat-row anim a6">
     <div class="stat-item"><div class="sn">✅</div><div class="sl">领证成功</div></div>
-    <div class="stat-item"><div class="sn">727+</div><div class="sl">天甜蜜</div></div>
+    <div class="stat-item"><div class="sn">730</div><div class="sl">天甜蜜</div></div>
     <div class="stat-item"><div class="sn">🔒</div><div class="sl">终身绑定</div></div>
   </div>
 </section>
@@ -499,6 +553,36 @@ body {
 </div>
 
 <script>
+// ===== MUSIC =====
+var bgMusic = document.getElementById('bgMusic');
+var musicBtn = document.getElementById('musicBtn');
+window.toggleMusic = function() {
+  if (bgMusic.paused) {
+    bgMusic.play().then(function() {
+      musicBtn.classList.add('playing');
+      musicBtn.textContent = '🎶';
+    }).catch(function() {});
+  } else {
+    bgMusic.pause();
+    musicBtn.classList.remove('playing');
+    musicBtn.textContent = '🎵';
+  }
+};
+// Auto-play immediately
+bgMusic.play().then(function() {
+  musicBtn.classList.add('playing');
+  musicBtn.textContent = '🎶';
+}).catch(function() {
+  // If autoplay blocked, play on first user interaction
+  document.addEventListener('click', function once() {
+    bgMusic.play().then(function() {
+      musicBtn.classList.add('playing');
+      musicBtn.textContent = '🎶';
+    }).catch(function() {});
+    document.removeEventListener('click', once);
+  }, { once: true });
+});
+
 (function() {
   // ===== LIGHTBOX =====
   var lb = document.getElementById('lightbox');
